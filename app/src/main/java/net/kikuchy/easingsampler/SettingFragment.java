@@ -104,7 +104,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener.onSettingChanged(new LinearInterpolator(), 300);
+        relaySettingValues();
     }
 
     private void relaySettingValues() {
