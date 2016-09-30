@@ -23,6 +23,7 @@ public class SettingFragment extends Fragment {
     private SettingChangeListener listener = null;
     private SeekBar duration;
     private Spinner easing;
+    private SeekBar force;
 
     public SettingFragment() {
     }
@@ -70,6 +71,24 @@ public class SettingFragment extends Fragment {
 
             }
         });
+        final TextView forceValue = (TextView) rootView.findViewById(R.id.forceValue);
+        force = (SeekBar) rootView.findViewById(R.id.forceSeek);
+        force.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                forceValue.setText(String.format("%2f", i * 1f / seekBar.getMax()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                relaySettingValues();
+            }
+        });
         return rootView;
     }
 
@@ -90,6 +109,7 @@ public class SettingFragment extends Fragment {
 
     private void relaySettingValues() {
         InterpolatorType interpolatorType = (InterpolatorType) easing.getSelectedItem();
+        float forceValue = force.getProgress() / force.getMax();
         // TODO
         listener.onSettingChanged(new LinearInterpolator(), duration.getProgress());
     }
