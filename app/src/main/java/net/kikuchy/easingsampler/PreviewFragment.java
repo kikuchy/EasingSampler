@@ -79,5 +79,6 @@ public class PreviewFragment extends Fragment {
                         .start();
             }
         });
+        actor.performClick();
     }
 }
