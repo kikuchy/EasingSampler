@@ -9,7 +9,6 @@
         android:layout_centerInParent="true"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@color/colorAccent"
-        android:elevation="15dp"/>
+        android:src="@drawable/actor_circle"/>
 
 </RelativeLayout>
