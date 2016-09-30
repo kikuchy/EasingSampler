@@ -15,14 +15,14 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by kikuchy on 2016/09/30.
  */
 
 public class SettingFragment extends Fragment {
     private SettingChangeListener listener = null;
+    private SeekBar duration;
+    private Spinner easing;
 
     public SettingFragment() {
     }
@@ -39,7 +39,7 @@ public class SettingFragment extends Fragment {
         }
 
         final TextView durationValue = (TextView) rootView.findViewById(R.id.durationValue);
-        final SeekBar duration = (SeekBar) rootView.findViewById(R.id.durationSeek);
+        duration = (SeekBar) rootView.findViewById(R.id.durationSeek);
         duration.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -53,17 +53,16 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                listener.onSettingChanged(new LinearInterpolator(), seekBar.getProgress());
+                relaySettingValues();
             }
         });
-        final Spinner easing = (Spinner) rootView.findViewById(R.id.easingSpinner);
+        easing = (Spinner) rootView.findViewById(R.id.easingSpinner);
         final ArrayAdapter<InterpolatorType> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, InterpolatorType.values());
         easing.setAdapter(adapter);
         easing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                InterpolatorType interpolatorType = (InterpolatorType) adapterView.getAdapter().getItem(i);
-                listener.onSettingChanged(new LinearInterpolator(), duration.getProgress());
+                relaySettingValues();
             }
 
             @Override
@@ -87,6 +86,12 @@ public class SettingFragment extends Fragment {
     public void onStart() {
         super.onStart();
         listener.onSettingChanged(new LinearInterpolator(), 300);
+    }
+
+    private void relaySettingValues() {
+        InterpolatorType interpolatorType = (InterpolatorType) easing.getSelectedItem();
+        // TODO
+        listener.onSettingChanged(new LinearInterpolator(), duration.getProgress());
     }
 
     public static SettingFragment newInstance() {
