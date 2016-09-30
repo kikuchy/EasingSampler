@@ -110,8 +110,7 @@ public class SettingFragment extends Fragment {
     private void relaySettingValues() {
         InterpolatorType interpolatorType = (InterpolatorType) easing.getSelectedItem();
         float forceValue = force.getProgress() / force.getMax();
-        // TODO
-        listener.onSettingChanged(new LinearInterpolator(), duration.getProgress());
+        listener.onSettingChanged(interpolatorType.generateInterpolator(forceValue), duration.getProgress());
     }
 
     public static SettingFragment newInstance() {
