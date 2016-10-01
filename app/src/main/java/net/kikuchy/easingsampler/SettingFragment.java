@@ -8,11 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -24,6 +25,7 @@ public class SettingFragment extends Fragment {
     private SeekBar duration;
     private Spinner easing;
     private SeekBar force;
+    private Switch actorForm;
 
     public SettingFragment() {
     }
@@ -54,7 +56,7 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                relaySettingValues();
+                relayAnimationSettingValues();
             }
         });
         easing = (Spinner) rootView.findViewById(R.id.easingSpinner);
@@ -63,7 +65,7 @@ public class SettingFragment extends Fragment {
         easing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                relaySettingValues();
+                relayAnimationSettingValues();
             }
 
             @Override
@@ -86,7 +88,14 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                relaySettingValues();
+                relayAnimationSettingValues();
+            }
+        });
+        actorForm = (Switch) rootView.findViewById(R.id.actorForm);
+        actorForm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                relayActorSettingValues();
             }
         });
         return rootView;
@@ -104,13 +113,18 @@ public class SettingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        relaySettingValues();
+        relayAnimationSettingValues();
     }
 
-    private void relaySettingValues() {
+    private void relayAnimationSettingValues() {
         InterpolatorType interpolatorType = (InterpolatorType) easing.getSelectedItem();
         float forceValue = force.getProgress() / force.getMax();
-        listener.onSettingChanged(interpolatorType.generateInterpolator(forceValue), duration.getProgress());
+        listener.onAnimationSettingChanged(interpolatorType.generateInterpolator(forceValue), duration.getProgress());
+    }
+
+    private void relayActorSettingValues() {
+        ActorForm form = (actorForm.isChecked()) ? ActorForm.RECTANGLE : ActorForm.CIRCLE;
+        listener.onActorSettingChanged(form);
     }
 
     public static SettingFragment newInstance() {
@@ -118,6 +132,8 @@ public class SettingFragment extends Fragment {
     }
 
     public interface SettingChangeListener {
-        void onSettingChanged(TimeInterpolator interpolator, long duration);
+        void onAnimationSettingChanged(TimeInterpolator interpolator, long duration);
+
+        void onActorSettingChanged(ActorForm form);
     }
 }

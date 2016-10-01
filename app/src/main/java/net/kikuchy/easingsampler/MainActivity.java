@@ -20,9 +20,16 @@ public class MainActivity extends AppCompatActivity implements SettingFragment.S
     }
 
     @Override
-    public void onSettingChanged(TimeInterpolator interpolator, long duration) {
+    public void onAnimationSettingChanged(TimeInterpolator interpolator, long duration) {
         PreviewFragment preview = (PreviewFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.preview_placeholder);
-        preview.applySetting(interpolator, duration);
+        preview.applyAnimationSetting(interpolator, duration);
+    }
+
+    @Override
+    public void onActorSettingChanged(ActorForm form) {
+        PreviewFragment preview = (PreviewFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.preview_placeholder);
+        preview.applyActorSetting(form);
     }
 }

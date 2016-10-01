@@ -4,10 +4,12 @@ package net.kikuchy.easingsampler;
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -45,8 +47,14 @@ public class PreviewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_preview, container, false);
     }
 
-    public void applySetting(final TimeInterpolator interpolator, final long duration) {
-        View actor = getView().findViewById(R.id.actor);
+    public void applyActorSetting(final ActorForm form) {
+        ImageView actor = (ImageView) getView().findViewById(R.id.actor);
+        @DrawableRes int actorRes = (form == ActorForm.CIRCLE) ? R.drawable.actor_circle : R.drawable.actor_rectangle;
+        actor.setImageDrawable(getContext().getDrawable(actorRes));
+    }
+
+    public void applyAnimationSetting(final TimeInterpolator interpolator, final long duration) {
+        ImageView actor = (ImageView) getView().findViewById(R.id.actor);
         actor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -63,7 +71,7 @@ public class PreviewFragment extends Fragment {
 
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                view.animate().setDuration(2000).alpha(1f).start();
+                                view.setAlpha(1f);
                             }
 
                             @Override
