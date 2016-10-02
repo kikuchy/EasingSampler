@@ -53,12 +53,13 @@ public class PreviewFragment extends Fragment {
         actor.setImageDrawable(getContext().getDrawable(actorRes));
     }
 
-    public void applyAnimationSetting(final TimeInterpolator interpolator, final long duration) {
-        final EasingAnimation animation = EasingAnimation.FADE_OUT;
+    public void applyAnimationSetting(final TimeInterpolator interpolator, final long duration, final EasingAnimation animation) {
         ImageView actor = (ImageView) getView().findViewById(R.id.actor);
+        animation.reset(actor);
         actor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                animation.reset(view);
                 animation
                         .presetAnimation(view.animate())
                         .setInterpolator(interpolator)
@@ -87,6 +88,5 @@ public class PreviewFragment extends Fragment {
                         .start();
             }
         });
-        actor.performClick();
     }
 }

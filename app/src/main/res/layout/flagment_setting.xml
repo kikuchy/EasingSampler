@@ -91,4 +91,19 @@
         android:id="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/forceSeek"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:text="Animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        android:id="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/actorForm" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        android:id="@+id/animationSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 </android.support.constraint.ConstraintLayout>

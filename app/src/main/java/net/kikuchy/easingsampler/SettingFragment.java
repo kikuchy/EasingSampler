@@ -26,6 +26,7 @@ public class SettingFragment extends Fragment {
     private Spinner easing;
     private SeekBar force;
     private Switch actorForm;
+    private Spinner animation;
 
     public SettingFragment() {
     }
@@ -60,8 +61,8 @@ public class SettingFragment extends Fragment {
             }
         });
         easing = (Spinner) rootView.findViewById(R.id.easingSpinner);
-        final ArrayAdapter<InterpolatorType> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, InterpolatorType.values());
-        easing.setAdapter(adapter);
+        final ArrayAdapter<InterpolatorType> interpolatorAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, InterpolatorType.values());
+        easing.setAdapter(interpolatorAdapter);
         easing.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -98,6 +99,20 @@ public class SettingFragment extends Fragment {
                 relayActorSettingValues();
             }
         });
+        animation = (Spinner) rootView.findViewById(R.id.animationSpinner);
+        final ArrayAdapter<EasingAnimation> animationAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, EasingAnimation.values());
+        animation.setAdapter(animationAdapter);
+        animation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                relayAnimationSettingValues();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return rootView;
     }
 
@@ -119,7 +134,8 @@ public class SettingFragment extends Fragment {
     private void relayAnimationSettingValues() {
         InterpolatorType interpolatorType = (InterpolatorType) easing.getSelectedItem();
         float forceValue = force.getProgress() / force.getMax();
-        listener.onAnimationSettingChanged(interpolatorType.generateInterpolator(forceValue), duration.getProgress());
+        EasingAnimation anim = (EasingAnimation) animation.getSelectedItem();
+        listener.onAnimationSettingChanged(interpolatorType.generateInterpolator(forceValue), duration.getProgress(), anim);
     }
 
     private void relayActorSettingValues() {
@@ -132,7 +148,7 @@ public class SettingFragment extends Fragment {
     }
 
     public interface SettingChangeListener {
-        void onAnimationSettingChanged(TimeInterpolator interpolator, long duration);
+        void onAnimationSettingChanged(TimeInterpolator interpolator, long duration, EasingAnimation animation);
 
         void onActorSettingChanged(ActorForm form);
     }

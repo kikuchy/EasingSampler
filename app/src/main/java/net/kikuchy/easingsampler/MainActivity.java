@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity implements SettingFragment.S
     }
 
     @Override
-    public void onAnimationSettingChanged(TimeInterpolator interpolator, long duration) {
+    public void onAnimationSettingChanged(TimeInterpolator interpolator, long duration, EasingAnimation animation) {
         PreviewFragment preview = (PreviewFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.preview_placeholder);
-        preview.applyAnimationSetting(interpolator, duration);
+        preview.applyAnimationSetting(interpolator, duration, animation);
     }
 
     @Override
