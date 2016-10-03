@@ -54,14 +54,14 @@ public class PreviewFragment extends Fragment {
     }
 
     public void applyAnimationSetting(final TimeInterpolator interpolator, final long duration, final EasingAnimation animation) {
-        ImageView actor = (ImageView) getView().findViewById(R.id.actor);
+        final ImageView actor = (ImageView) getView().findViewById(R.id.actor);
         animation.reset(actor);
-        actor.setOnClickListener(new View.OnClickListener() {
+        getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                animation.reset(view);
+                animation.reset(actor);
                 animation
-                        .presetAnimation(view.animate())
+                        .presetAnimation(actor.animate())
                         .setInterpolator(interpolator)
                         .setDuration(duration)
                         .setListener(new Animator.AnimatorListener() {
@@ -72,7 +72,7 @@ public class PreviewFragment extends Fragment {
 
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                animation.reset(view);
+                                animation.reset(actor);
                             }
 
                             @Override
