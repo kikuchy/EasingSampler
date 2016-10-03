@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,12 +55,14 @@ public class PreviewFragment extends Fragment {
     }
 
     public void applyAnimationSetting(final TimeInterpolator interpolator, final long duration, final EasingAnimation animation) {
+        View rootView = getView();
+        final Size stage = new Size(rootView.getWidth(), rootView.getHeight());
         final ImageView actor = (ImageView) getView().findViewById(R.id.actor);
-        animation.reset(actor);
-        getView().setOnClickListener(new View.OnClickListener() {
+        animation.reset(actor, stage);
+        rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                animation.reset(actor);
+                animation.reset(actor, stage);
                 animation
                         .presetAnimation(actor.animate())
                         .setInterpolator(interpolator)
@@ -72,7 +75,7 @@ public class PreviewFragment extends Fragment {
 
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                animation.reset(actor);
+                                animation.reset(actor, stage);
                             }
 
                             @Override
