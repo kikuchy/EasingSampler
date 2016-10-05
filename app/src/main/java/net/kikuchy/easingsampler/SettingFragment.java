@@ -35,12 +35,7 @@ public class SettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView;
-        if (savedInstanceState == null) {
-            rootView = inflater.inflate(R.layout.flagment_setting, container, false);
-        } else {
-            rootView = getView();
-        }
+        View rootView = inflater.inflate(R.layout.flagment_setting, container, false);
 
         final TextView durationValue = (TextView) rootView.findViewById(R.id.durationValue);
         duration = (SeekBar) rootView.findViewById(R.id.durationSeek);
